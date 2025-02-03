@@ -12,6 +12,13 @@ leadership:
       slack: 'https://hackforla.slack.com/team/UE1UG1YFP'
       github: 'https://github.com/ExperimentsInHonesty'
     picture: https://avatars.githubusercontent.com/ExperimentsInHonesty
+  - name: Essence Goff
+    github-handle: essencegoff
+    role: Project Manager / Product Owner
+    links:
+      slack: https://hackforla.slack.com/team/U07FMKW5EDR
+      github: https://github.com/essencegoff
+    picture: https://avatars.githubusercontent.com/essencegoff
   - name: Kelly Chuang
     github-handle: kellyc9
     role: Product Manager
