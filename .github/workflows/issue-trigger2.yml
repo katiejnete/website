@@ -2,7 +2,11 @@ name: Issue Trigger 2
 on:
   issues:
     types: [opened, transferred, assigned, labeled, unlabeled]
-
+permissions:
+  contents: read
+  actions: read
+  id-token: write
+  organization: read
 jobs:
   # Adds missing labels to newly-created or transferred issues
   Add-Missing-Labels-To-Issues:
@@ -14,14 +18,17 @@ jobs:
     - name: Check Team Membership
       uses: actions/github-script@v7
       with:
-        github-token: ${{ secrets.HACKFORLA_GRAPHQL_TOKEN }}
+        github-token: ${{ secrets.HACKFORLA_GRAPHQL_TOKEN || secrets.GITHUB_TOKEN }}
         script: |
           const username = process.env.GITHUB_ACTOR;
           const team = 'website-write';
           const isMemberOfTeam = require('./github-actions/utils/check-team-membership.js');
-          
+
           const isMember = await isMemberOfTeam(github, username, team);
-          return isMemberOfTeam    
+
+          if (!isMember) {
+            core.setFailed(`❌ User '${username}' is not a member of the '${team}' team.`);
+          }   
     # If user is team member: checks if the issue has required labels
     - if: ${{ steps.check-team-membership.outputs.result == 'true' }}
       name: Check Labels
